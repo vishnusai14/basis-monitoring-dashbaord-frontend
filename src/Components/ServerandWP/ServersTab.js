@@ -8,6 +8,7 @@ import Spinner from "../Spinner/Spinner";
 import { getServerState } from "../../utils/utilFunction";
 import { serverColumns } from "../../utils/Tables/Columns/ServerColumn";
 import RefreshCard from "../RefreshCard";
+import { getServerDetails, getWpDetails } from "../../serverFunction/serverFunctions";
 
 const ServersTab = () => {
     const [selectedServer, setSelectedServer] = useState(null);
@@ -28,6 +29,40 @@ const ServersTab = () => {
             },
         ],
     };
+
+
+    const fetchServersUsingOdata = () => {
+        setLoading(true);
+        getServerDetails().then(res => {
+            const uniqueServers = createUniqueRow(res.data?.d.results || [], " NAME");
+
+            
+            const decodedServerDetails = []
+
+            uniqueServers.forEach(wp => {
+                const decodedState = atob(wp.State).charCodeAt(0);
+                decodedServerDetails.push({ ...wp, decodedState: getServerState(decodedState) });
+            });
+
+            console.log(decodedServerDetails);
+
+            setServers(decodedServerDetails);
+        }).catch(err => {
+            console.log(err);
+        }).finally(() => {
+            setLoading(false);
+        })
+    }
+
+    const fetchServerWpDetailsUsingOdata = (record) => {
+        getWpDetails(record.name).then(res => {
+            setSelectedServer(record);
+            setServerWpDetails(res.data?.d.results || []);
+            console.log(res.data.d.results);
+        }).catch(err => {
+            console.log(err);
+        })
+    }
 
 
     const fetchServers = () => {
@@ -63,25 +98,25 @@ const ServersTab = () => {
     };
 
     useEffect(() => {
-        fetchServers();
+        fetchServersUsingOdata();
     }, []);
 
     return (
         loading ? <Spinner loading={loading} tip={"Loading Servers"} /> :
             <>
-                <RefreshCard title={"Instance Overview"} onRefresh={fetchServers} >
+                <RefreshCard title={"Instance Overview"} onRefresh={fetchServersUsingOdata} >
                     <Table
                         dataSource={servers}
                         columns={serverColumns}
                         rowKey="key"
                         onRow={(record) => ({
-                            onDoubleClick: () => fetchServerWpDetails(record),
+                            onDoubleClick: () => fetchServerWpDetailsUsingOdata(record),
                         })}
                     />
                 </RefreshCard>
 
                 {
-                    selectedServer && <Card title={`Work Processes for ${selectedServer.NAME}`}>
+                    selectedServer && <Card title={`Work Processes for ${selectedServer.Name}`}>
                         <ServerWP server={selectedServer} wpDetails={serverWpDetails} />
                     </Card>
                 }

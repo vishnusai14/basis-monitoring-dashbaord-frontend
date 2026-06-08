@@ -5,14 +5,14 @@ import axios from "axios";
 
 const ServerWP = ({ server, wpDetails }) => {
     const grouped = wpDetails.reduce((acc, wp) => {
-        if (!acc[wp.WP_TYP]) acc[wp.WP_TYP] = [];
-        acc[wp.WP_TYP].push(wp);
+        if (!acc[wp.WpTyp]) acc[wp.WpTyp] = [];
+        acc[wp.WpTyp].push(wp);
         return acc;
     }, {});
 
     const chartData = Object.entries(grouped).map(([type, list]) => {
         const total = list.length;
-        const used = list.filter(wp => wp.WP_STATUS !== "Waiting").length;
+        const used = list.filter(wp => wp.WpStatus !== "Waiting").length;
         const free = total - used;
 
         return {
@@ -26,7 +26,7 @@ const ServerWP = ({ server, wpDetails }) => {
                     },
                 ],
             },
-            usedList: list.filter(wp => wp.WP_STATUS !== "Waiting"),
+            usedList: list.filter(wp => wp.WpStatus !== "Waiting"),
         };
     });
 
@@ -41,12 +41,12 @@ const ServerWP = ({ server, wpDetails }) => {
                         </div>
                         <Table
                             dataSource={usedList}
-                            rowKey="WP_PID"
+                            rowKey="WpPid"
                             columns={[
-                                { title: "PID", dataIndex: "WP_PID" },
-                                { title: "Status", dataIndex: "WP_STATUS" },
-                                { title: "Report", dataIndex: "WP_REPORT" },
-                                { title: "User", dataIndex: "WP_BNAME" },
+                                { title: "PID", dataIndex: "WpPid" },
+                                { title: "Status", dataIndex: "WpStatus" },
+                                { title: "Report", dataIndex: "WpReport" },
+                                { title: "User", dataIndex: "WpBname" },
                             ]}
                             pagination={false}
                             size="small"

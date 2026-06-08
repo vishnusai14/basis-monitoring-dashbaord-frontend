@@ -1,7 +1,7 @@
 export const serverColumns = [
-    { title: "AS Instance", dataIndex: "NAME", key: "NAME" },
-    { title: "Host Name", dataIndex: "HOST", key: "HOST" },
-    { title: "Service", dataIndex: "SERV", key: "SERV" },
+    { title: "AS Instance", dataIndex: "Name", key: "Name" },
+    { title: "Host Name", dataIndex: "Host", key: "Host" },
+    { title: "Service", dataIndex: "Serv", key: "Serv" },
     {
         title: "Status",
         dataIndex: "decodedState",

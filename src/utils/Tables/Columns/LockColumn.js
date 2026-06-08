@@ -3,39 +3,39 @@ import { filter } from "../../utilFunction";
 export const lockColumns = [
         { 
             title: "Client", 
-            dataIndex: "CLIENT", 
-            key: "CLIENT",
-            ...filter("CLIENT")
+            dataIndex: "Client", 
+            key: "Client",
+            ...filter("Client")
         },
         { 
             title: "User", 
-            dataIndex: "ZUSER", 
-            key: "ZUSER",
-            ...filter("ZUSER")
+            dataIndex: "Zuser", 
+            key: "Zuser",
+            ...filter("Zuser")
         },
         { 
             title: "Transaction", 
-            dataIndex: "TCODE", 
-            key: "TCODE",
-            ...filter("TCODE")
+            dataIndex: "Tcode", 
+            key: "Tcode",
+            ...filter("Tcode")
         },
         { 
             title: "Lock Object", 
-            dataIndex: "ZTABLE", 
-            key: "ZTABLE",
-            ...filter("ZTABLE")
+            dataIndex: "Ztable", 
+            key: "Ztable",
+            ...filter("Ztable")
         },
         { 
             title: "Mode", 
-            dataIndex: "LOCKMODE", 
-            key: "LOCKMODE",
-            ...filter("LOCKMODE")
+            dataIndex: "Lockmode", 
+            key: "Lockmode",
+            ...filter("Lockmode")
         },
         { 
             title: "Date", 
-            dataIndex: "ZDATE", 
-            key: "ZDATE",
-            ...filter("ZDATE"),
-            sorter: (a, b) => new Date(a.ZDATE) - new Date(b.ZDATE),
+            dataIndex: "correctStartDate", 
+            key: "correctStartDate",
+            ...filter("correctStartDate"),
+            sorter: (a, b) => new Date(a.correctStartDate) - new Date(b.correctStartDate),
         },
     ];

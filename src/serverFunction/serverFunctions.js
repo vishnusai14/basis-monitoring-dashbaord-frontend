@@ -1,4 +1,4 @@
-import { baseUrl, password, userName } from "./serverDetails";
+import { baseUrl } from "./serverDetails";
 import axios from "axios";
 import moment from "moment";
 
@@ -7,22 +7,11 @@ import moment from "moment";
 export const getBgJobDetails = (jobname, startDate) => {
     const queryJobname = jobname || "*";
     const querystartDate = startDate || moment().format("YYYYMMDD");
-
-    const urlString = baseUrl + "/BgJobDetailsSet"
-
-    const url = new URL(urlString);
-    console.log(url.toString());
-    url.searchParams.append("jobName", queryJobname);
-    url.searchParams.append("startDate", querystartDate);
     
-    return axios.get(baseUrl + "/BgJobDetailsSet", {
+    return axios.get(baseUrl + "/bgdata", {
         params: {
             jobname: queryJobname,
             startDate: querystartDate
-        },
-        auth: {
-            username: userName,
-            password: password
         },
         headers: {
             "Accept": "application/json"
@@ -33,15 +22,23 @@ export const getBgJobDetails = (jobname, startDate) => {
 export const getBgJobDetailsSummary = (jobname, startDate) => {
     const queryJobname = jobname || "*";
     const querystartDate = startDate || moment().format("YYYYMMDD");
-
-    return axios.get(baseUrl + "/BgJobDetailsSummarySet", {
+    
+    return axios.get(baseUrl + "/bgdata/get-summary", {
         params: {
             jobname: queryJobname,
             startDate: querystartDate
         },
-        auth: {
-            username: userName,
-            password: password
+        headers: {
+            "Accept": "application/json"
+        }
+    });
+};
+
+export const getBgJobLogs = (jobname, jobcount) => {
+     return axios.get(baseUrl + "/bgdata/get-logs", {
+        params: {
+            jobname: jobname,
+            jobcount: jobcount
         },
         headers: {
             "Accept": "application/json"
@@ -49,19 +46,29 @@ export const getBgJobDetailsSummary = (jobname, startDate) => {
     });
 }
 
-export const getBgJobLogs = (jobname, jobcount) => {
-    return axios.get(baseUrl + "/BgJobLogDetailsSet", {
-        params : {
-            jobname: jobname,
-            jobcount: jobcount
-        },
-        auth : {
-            username: userName,
-            password: password
+export const getLockDetails = () => {
+    return axios.get(baseUrl + "/lockdetails", {
+        headers : {
+            "Accept" : "application/json"
+        }
+    });
+}
+
+export const getServerDetails = () => {
+    return axios.get(baseUrl + "/serverdetails", {
+        headers: {
+            "Accept": "application/json"
+        }
+    });
+}
+
+export const getWpDetails = (servername) => {
+         return axios.get(baseUrl + "/serverdetails/get-wp-details", {
+        params: {
+            servername: servername
         },
         headers: {
             "Accept": "application/json"
         }
-    })
+    });
 }
-
