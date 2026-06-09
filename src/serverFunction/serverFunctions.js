@@ -1,6 +1,8 @@
-import { baseUrl } from "./serverDetails";
-import axios from "axios";
+import {baseUrl} from "./serverDetails";
 import moment from "moment";
+import axios from "axios";
+
+
 
 
 
@@ -13,9 +15,7 @@ export const getBgJobDetails = (jobname, startDate) => {
             jobname: queryJobname,
             startDate: querystartDate
         },
-        headers: {
-            "Accept": "application/json"
-        }
+
     });
 };
 
@@ -28,9 +28,7 @@ export const getBgJobDetailsSummary = (jobname, startDate) => {
             jobname: queryJobname,
             startDate: querystartDate
         },
-        headers: {
-            "Accept": "application/json"
-        }
+
     });
 };
 
@@ -40,35 +38,30 @@ export const getBgJobLogs = (jobname, jobcount) => {
             jobname: jobname,
             jobcount: jobcount
         },
-        headers: {
-            "Accept": "application/json"
-        }
+
     });
 }
 
 export const getLockDetails = () => {
     return axios.get(baseUrl + "/lockdetails", {
-        headers : {
-            "Accept" : "application/json"
-        }
+
     });
 }
 
 export const getServerDetails = () => {
-    return axios.get(baseUrl + "/serverdetails", {
-        headers: {
-            "Accept": "application/json"
-        }
-    });
+    return axios.get(baseUrl+ "/serverdetails", {});
 }
 
 export const getWpDetails = (servername) => {
-         return axios.get(baseUrl + "/serverdetails/get-wp-details", {
+    return axios.get(baseUrl+ "/serverdetails/get-wp-details", {
         params: {
             servername: servername
         },
-        headers: {
-            "Accept": "application/json"
-        }
+    });
+}
+
+export const getOsInfo = () => {
+    return axios.get(baseUrl + "/osInfo", {
+        params: {},
     });
 }

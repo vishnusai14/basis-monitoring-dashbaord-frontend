@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Layout, Tabs } from "antd";
-import axios from "axios";
 
 import DashboardHeader from "./Components/Header";
 
 import JobsTab from "./Components/BackgroundJobs/JobsTab";
 import LocksTab from "./Components/LocksTab";
 import ServersTab from "./Components/ServerandWP/ServersTab";
+import OsInfo from "./Components/OsInfo/OsInfo";
 
 const { Header, Content } = Layout;
 const { TabPane } = Tabs;
@@ -14,7 +14,6 @@ const { TabPane } = Tabs;
 function App() {
   
  
-  const [servers, setServers] = useState([]);
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -29,6 +28,9 @@ function App() {
           </TabPane>
           <TabPane tab="Server List" key="3">
             <ServersTab />
+          </TabPane>
+          <TabPane tab="Os Info" key="4">
+            <OsInfo />
           </TabPane>
         </Tabs>
       </Content>

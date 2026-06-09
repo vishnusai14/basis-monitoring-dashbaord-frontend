@@ -117,3 +117,43 @@ export const createCorrectDateandTime = (record, col1, col2) => {
     const withCorrectDateandTime = createCorrectTimeFormat(withCorrectDate, col2);
     return withCorrectDateandTime;
 }
+
+
+export const formatKbToGiB = (kb) => `${(kb / 1024 / 1024).toFixed(2)} GB`;
+
+export const formatNumber = (value) => {
+    const number = Number(value);
+    return Number.isFinite(number) ? number : 0;
+};
+
+export const delay = (ms) =>
+    new Promise(resolve => setTimeout(resolve, ms));
+
+export const retryRequest = async (
+    apiCall,
+    retries = 5,
+    retryDelay = 1000
+) => {
+
+    for (let attempt = 1; attempt <= retries; attempt++) {
+
+        try {
+
+            const response = await apiCall();
+
+            return response;
+
+        } catch (err) {
+
+            console.log(`Attempt ${attempt} failed`);
+
+            // Last retry
+            if (attempt === retries) {
+                throw err;
+            }
+
+            // wait before retry
+            await delay(retryDelay);
+        }
+    }
+};
