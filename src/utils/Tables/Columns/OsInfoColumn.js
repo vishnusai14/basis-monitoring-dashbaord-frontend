@@ -1,5 +1,5 @@
 import { Progress } from 'antd';
-import { formatKbToGiB, formatNumber } from "../../utilFunction";
+import { filter, formatKbToGiB, formatNumber } from "../../utilFunction";
 
 
 
@@ -67,3 +67,65 @@ export const fsColumns = [
     },
 ];
 
+export const Oscolumns = [
+    { title: 'Mount Point', dataIndex: 'mount', key: 'mount' },
+    { title: 'File System', dataIndex: 'fs', key: 'fs' },
+    { title: 'Type', dataIndex: 'type', key: 'type' },
+    { title: 'Size', dataIndex: 'size', key: 'size' },
+    { title: 'Used', dataIndex: 'used', key: 'used' },
+    { title: 'Available', dataIndex: 'available', key: 'available' },
+    {
+        title: 'Usage',
+        dataIndex: 'use',
+        key: 'use',
+        render: (use) => {
+
+
+            const percent = parseFloat(use);
+
+            let status = "success";
+            let strokeColor = "#52c41a";
+
+            if (percent >= 90) {
+                status = "exception";
+                strokeColor = "#ff4d4f";
+            } else if (percent >= 50) {
+                status = "active";
+                strokeColor = "#faad14";
+            }
+
+            return (
+                <Progress
+                    percent={percent}
+                    status={status}
+                    strokeColor={strokeColor}
+                    size="small"
+                />
+            );
+
+
+        },
+    },
+];
+
+
+
+
+export const OsProcessColumn = [
+        { title: "PID", dataIndex: "pid", key: "pid", sorter: (a, b) => a.pid - b.pid },
+        { title: "PPID", dataIndex: "parentPid", key: "parentPid", sorter: (a, b) => a.parentPid - b.parentPid },
+        { title: "Name", dataIndex: "name", key: "name", sorter: (a, b) => (a.name || "").localeCompare(b.name || "") },
+        { title: "User", dataIndex: "user", key: "user", ...filter("user")},
+        { title: "State", dataIndex: "state", key: "state", ...filter("state") },
+        { title: "CPU (%)", dataIndex: "cpu", key: "cpu", sorter: (a, b) => (a.cpu || 0) - (b.cpu || 0), render: v => Number(v || 0).toFixed(2) },
+        { title: "MEM (%)", dataIndex: "mem", key: "mem", sorter: (a, b) => (a.mem || 0) - (b.mem || 0), render: v => Number(v || 0).toFixed(2) },
+        { title: "VSZ", dataIndex: "memVsz", key: "memVsz", sorter: (a, b) => (a.memVsz || 0) - (b.memVsz || 0), render: v => v || 0 },
+        { title: "RSS", dataIndex: "memRss", key: "memRss", sorter: (a, b) => (a.memRss || 0) - (b.memRss || 0), render: v => v || 0 },
+        { title: "Started", dataIndex: "started", key: "started", sorter: (a, b) => new Date(a.started) - new Date(b.started) },
+        {
+            title: "Command",
+            dataIndex: "command",
+            key: "command",
+            render: text => <div style={{ maxWidth: 320, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{text}</div>,
+        },
+    ];

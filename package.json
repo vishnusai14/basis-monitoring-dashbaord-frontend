@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^6.4.3",
     "axios": "^1.17.0",
+    "buffer": "^6.0.3",
     "chart.js": "^4.5.1",
     "http-proxy-middleware": "^3.0.6",
     "https-browserify": "^1.0.0",
@@ -26,7 +27,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "comment": "change the below server to point to correct endpoint while deployng",
   "proxy": "https://port3005-workspaces-ws-raeat.us10.trial.applicationstudio.cloud.sap/",
   "eslintConfig": {
     "extends": [

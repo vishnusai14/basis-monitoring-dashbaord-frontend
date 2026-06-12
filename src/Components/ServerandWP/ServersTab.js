@@ -55,12 +55,15 @@ const ServersTab = () => {
     }
 
     const fetchServerWpDetailsUsingOdata = (record) => {
+        setLoading(true);
         getWpDetails(record.name).then(res => {
             setSelectedServer(record);
             setServerWpDetails(res.data?.d.results || []);
             console.log(res.data.d.results);
         }).catch(err => {
             console.log(err);
+        }).finally(() => {
+            setLoading(false);
         })
     }
 
@@ -115,12 +118,18 @@ const ServersTab = () => {
                     />
                 </RefreshCard>
 
+                <>
                 {
+                    loading ? <Spinner /> :  
                     selectedServer && <Card title={`Work Processes for ${selectedServer.Name}`}>
                         <ServerWP server={selectedServer} wpDetails={serverWpDetails} />
                     </Card>
-                }
+                
 
+                }
+                </>
+
+               
 
             </>
     );

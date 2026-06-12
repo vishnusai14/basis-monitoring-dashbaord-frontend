@@ -13,7 +13,8 @@ import {
   LineElement,
   PointElement,
   CategoryScale,
-  LinearScale
+  LinearScale,
+  BarElement
 } from "chart.js";
 
 // Register the chart elements you need
@@ -24,7 +25,8 @@ ChartJS.register(
   LineElement,
   PointElement,
   CategoryScale,
-  LinearScale
+  LinearScale,
+  BarElement, 
 );
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
