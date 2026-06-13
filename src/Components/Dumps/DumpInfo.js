@@ -31,9 +31,9 @@ const DumpInfo = () => {
         direction: 'ascend'
     });
 
-    const fetchDumpUsingOdata = () => {
+    const fetchDumpUsingOdata = (startDateStr, endDateStr) => {
         setLoading(true)
-        getDumpsList(startDate, endDate).then(res => {
+        getDumpsList(startDateStr, endDateStr).then(res => {
             console.log(res);
             const uniqueDumps = createUniqueRow(res.data?.d.results || [], "Zclient");
             const withCorrectedDates = createCorrectDateandTime(uniqueDumps, "Zdate", "Ztime");
@@ -55,7 +55,9 @@ const DumpInfo = () => {
 
 
     const handleGetDumps = () => {
-        fetchDumpUsingOdata()
+        const startDateStr = startDate ? startDate.format("YYYYMMDD") : "";
+        const endDateStr = endDate ? endDate.format("YYYYMMDD") : "";
+        fetchDumpUsingOdata(startDateStr, endDateStr);
     }
 
 
