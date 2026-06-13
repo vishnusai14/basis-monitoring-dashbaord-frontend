@@ -116,11 +116,8 @@ export const OsProcessColumn = [
         { title: "PPID", dataIndex: "parentPid", key: "parentPid", sorter: (a, b) => a.parentPid - b.parentPid },
         { title: "Name", dataIndex: "name", key: "name", sorter: (a, b) => (a.name || "").localeCompare(b.name || "") },
         { title: "User", dataIndex: "user", key: "user", ...filter("user")},
-        { title: "State", dataIndex: "state", key: "state", ...filter("state") },
         { title: "CPU (%)", dataIndex: "cpu", key: "cpu", sorter: (a, b) => (a.cpu || 0) - (b.cpu || 0), render: v => Number(v || 0).toFixed(2) },
         { title: "MEM (%)", dataIndex: "mem", key: "mem", sorter: (a, b) => (a.mem || 0) - (b.mem || 0), render: v => Number(v || 0).toFixed(2) },
-        { title: "VSZ", dataIndex: "memVsz", key: "memVsz", sorter: (a, b) => (a.memVsz || 0) - (b.memVsz || 0), render: v => v || 0 },
-        { title: "RSS", dataIndex: "memRss", key: "memRss", sorter: (a, b) => (a.memRss || 0) - (b.memRss || 0), render: v => v || 0 },
         { title: "Started", dataIndex: "started", key: "started", sorter: (a, b) => new Date(a.started) - new Date(b.started) },
         {
             title: "Command",

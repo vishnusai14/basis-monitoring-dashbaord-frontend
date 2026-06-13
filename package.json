@@ -27,7 +27,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "https://port3005-workspaces-ws-raeat.us10.trial.applicationstudio.cloud.sap/",
+  "proxy": "http://localhost:3005/",
   "eslintConfig": {
     "extends": [
       "react-app",

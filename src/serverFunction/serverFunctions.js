@@ -10,7 +10,7 @@ export const getBgJobDetails = (jobname, startDate) => {
     const queryJobname = jobname || "*";
     const querystartDate = startDate || moment().format("YYYYMMDD");
 
-    return axios.get(baseUrl + "/bgdata", {
+    return axios.get(baseUrl + "/api/bgdata", {
         params: {
             jobname: queryJobname,
             startDate: querystartDate
@@ -26,7 +26,7 @@ export const getBgJobDetailsSummary = (jobname, startDate) => {
     const queryJobname = jobname || "*";
     const querystartDate = startDate || moment().format("YYYYMMDD");
 
-    return axios.get(baseUrl + "/bgdata/get-summary", {
+    return axios.get(baseUrl + "/api/bgdata/get-summary", {
         params: {
             jobname: queryJobname,
             startDate: querystartDate
@@ -38,7 +38,7 @@ export const getBgJobDetailsSummary = (jobname, startDate) => {
 };
 
 export const getBgJobLogs = (jobname, jobcount) => {
-    return axios.get(baseUrl + "/bgdata/get-logs", {
+    return axios.get(baseUrl + "/api/bgdata/get-logs", {
         params: {
             jobname: jobname,
             jobcount: jobcount
@@ -50,7 +50,7 @@ export const getBgJobLogs = (jobname, jobcount) => {
 }
 
 export const getLockDetails = () => {
-    return axios.get(baseUrl + "/lockdetails", {
+    return axios.get(baseUrl + "/api/lockdetails", {
         headers: {
             "X-CSRF-Token": "Fetch"
         }
@@ -59,7 +59,7 @@ export const getLockDetails = () => {
 }
 
 export const getServerDetails = () => {
-    return axios.get(baseUrl + "/serverdetails", {
+    return axios.get(baseUrl + "/api/serverdetails", {
         headers: {
             "X-CSRF-Token": "Fetch"
         }
@@ -67,7 +67,7 @@ export const getServerDetails = () => {
 }
 
 export const getWpDetails = (servername) => {
-    return axios.get(baseUrl + "/serverdetails/get-wp-details", {
+    return axios.get(baseUrl + "/api/serverdetails/get-wp-details", {
         params: {
             servername: servername
         },
@@ -78,7 +78,7 @@ export const getWpDetails = (servername) => {
 }
 
 export const getOsInfo = () => {
-    return axios.get(baseUrl + "/osData/get-info", {
+    return axios.get(baseUrl + "/api/osData/get-info", {
         params: {},
         headers: {
             "X-CSRF-Token": "Fetch"
@@ -87,7 +87,7 @@ export const getOsInfo = () => {
 }
 
 export const getOsProcessInfo = () => {
-    return axios.get(baseUrl + "/osData/get-process", {
+    return axios.get(baseUrl + "/api/osData/get-process", {
         params: {},
         headers: {
             "X-CSRF-Token": "Fetch"

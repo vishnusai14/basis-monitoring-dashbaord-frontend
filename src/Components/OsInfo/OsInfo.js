@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Bar, Doughnut } from "react-chartjs-2";
-import { Col, Row, Progress, Table, Card, Statistic, Grid } from "antd";
+import { Col, Row, Progress, Table, Card, Statistic, Grid, Select, Space } from "antd";
 import { Oscolumns, OsProcessColumn } from "../../utils/Tables/Columns/OsInfoColumn";
 import { getOsInfo, getOsProcessInfo } from "../../serverFunction/serverFunctions";
 import Spinner from "../Spinner/Spinner";
@@ -23,6 +23,9 @@ const OsInfo = () => {
     const [loading, setLoading] = useState(true);
     const [osData, setOsData] = useState({});
     const [osProcessData, setOsProcessData] = useState([]);
+    const [refreshInterval, setRefreshInterval] = useState(5000); // Default 5 seconds
+    const intervalRef = useRef(null);
+    const isFirstFetchRef = useRef(true);
 
     const { systemInfo, cpuInfo, memoryInfo, osInfo, currentLoadInfo, fsSizeInfo } = osData;
 
@@ -120,22 +123,33 @@ const OsInfo = () => {
                 }
             },
             y: {
+                 ticks: {
+                    stepSize: 5
+                }, 
+                type: "linear", 
                 beginAtZero: true,
                 max: 100,
+               
+
             },
         },
     };
 
 
     const fetchOsDatausingOdata = () => {
-        setLoading(true);
+        if (isFirstFetchRef.current) {
+            setLoading(true);
+        }
         getOsInfo().then(res => {
             setOsData(res.data.data);
             console.log(res.data);
         }).catch(err => {
             console.log(err);
         }).finally(() => {
-            setLoading(false);
+            if (isFirstFetchRef.current) {
+                setLoading(false);
+                isFirstFetchRef.current = false;
+            }
             getOsProcessInfo().then(res2 => {
                 setOsProcessData(res2.data?.data?.list);
             }).catch(err => {
@@ -145,14 +159,53 @@ const OsInfo = () => {
 
     }
 
+    // Cleanup interval on unmount
+    useEffect(() => {
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+        }
+    }, []);
+
+    // Handle initial fetch and set up auto-refresh
     useEffect(() => {
         fetchOsDatausingOdata();
-    }, [])
+        
+        // Set up interval for auto-refresh
+        intervalRef.current = setInterval(() => {
+            fetchOsDatausingOdata();
+        }, refreshInterval);
+
+        // Cleanup previous interval when refreshInterval changes
+        return () => {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+            }
+        };
+    }, [refreshInterval]);
 
     return (
         loading ? <Spinner /> :
             <div style={{ padding: '24px', background: '#f0f2f5' }}>
                 <Row gutter={[16, 16]}>
+                    <Col span={24}>
+                        <Card title="Refresh Settings" style={cardStyle} bordered={false}>
+                            <Space>
+                                <span style={{ fontWeight: 'bold' }}>Refresh Interval:</span>
+                                <Select
+                                    value={refreshInterval}
+                                    onChange={(value) => setRefreshInterval(value)}
+                                    style={{ width: 200 }}
+                                >
+                                    <Select.Option value={5000}>5 seconds</Select.Option>
+                                    <Select.Option value={10000}>10 seconds</Select.Option>
+                                    <Select.Option value={30000}>30 seconds</Select.Option>
+                                    <Select.Option value={60000}>1 minute</Select.Option>
+                                    <Select.Option value={300000}>5 minutes</Select.Option>
+                                </Select>
+                            </Space>
+                        </Card>
+                    </Col>
+
                     <Col span={24}>
                         <Card title="System Information" style={cardStyle} bordered={false}>
                             <Row gutter={[16, 16]}>
@@ -274,21 +327,20 @@ const OsInfo = () => {
 
                     </Row>
 
-                    <Row>
+                   
                         <Col span={24}>
-                            <Card title="Processes" bordered={false} style={{ ...cardStyle, width: "100%" }}>
+                            <Card title="Processes" bordered={false}>
                                 <Table
                                     dataSource={osProcessData || []}
                                     columns={OsProcessColumn}
                                     rowKey="pid"
                                     pagination={{ pageSize: 10, showSizeChanger: true }}
-                                    scroll={{ x: 1200, y: 400 }}
+                                    // scroll={{ x: 1200, y: 400 }}
                                 />
                             </Card>
                         </Col>
 
-                    </Row>
-
+                   
                     <Col span={24}>
                         <Card title="CPU Load per Core" bordered={false} style={{ ...cardStyle, width: "100%" }}>
                             <div style={{ height: '300px', display: "flex", justifyContent: "center", alignItems: "center" }}>
