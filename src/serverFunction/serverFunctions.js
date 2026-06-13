@@ -94,3 +94,19 @@ export const getOsProcessInfo = () => {
         }
     });
 }
+
+export const getDumpsList = (startDate, endDate) => {
+    const querystartDate = startDate || moment().format("YYYYMMDD");
+    const queryendDate = endDate || moment().format("YYYYMMDD");
+
+    return axios.get(baseUrl + "/api/dumpinfo", {
+        params: {
+            startDate: querystartDate,
+            endDate: queryendDate
+        },
+        headers: {
+            "X-CSRF-Token": "Fetch"
+        }
+
+    });
+}

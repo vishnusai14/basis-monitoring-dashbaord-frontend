@@ -7,6 +7,7 @@ import JobsTab from "./Components/BackgroundJobs/JobsTab";
 import LocksTab from "./Components/LocksTab";
 import ServersTab from "./Components/ServerandWP/ServersTab";
 import OsInfo from "./Components/OsInfo/OsInfo";
+import DumpInfo from "./Components/Dumps/DumpInfo";
 
 const { Header, Content } = Layout;
 const { TabPane } = Tabs;
@@ -31,6 +32,9 @@ function App() {
           </TabPane>
           <TabPane tab="Os Info" key="4">
             <OsInfo />
+          </TabPane>
+           <TabPane tab="Dumps" key="5">
+            <DumpInfo />
           </TabPane>
         </Tabs>
       </Content>
